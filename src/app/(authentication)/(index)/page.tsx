@@ -66,12 +66,12 @@ const Index = () => {
             <div className="mb-6">
               <Input
                 type="text"
-                placeholder="name@company.com"
+                placeholder="enter your email"
                 className="px-4 py-2 border border-white rounded-md w-full"
                 onChange={handleEmailChange}
               />
             </div>
-            {showPasswordInput && (
+           
               <div className="mb-6">
                 <Input
                   type="password"
@@ -80,7 +80,7 @@ const Index = () => {
                   onChange={handleEmailChange}
                 />
               </div>
-            )}
+             
 
             {/* Button */}
             <Button
@@ -88,13 +88,13 @@ const Index = () => {
               disabled={!isEmailValid}
               type="submit"
             >
-              Continue
+              Login
             </Button>
           </form>
 
           <div className="mt-4">
             <span> Don't have an account?</span>
-            <Link href="/verify-email"> Signup</Link>
+            <Link href="/sign-up"> Signup</Link>
           </div>
         </div>
       </div>

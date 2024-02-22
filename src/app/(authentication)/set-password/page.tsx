@@ -17,36 +17,32 @@ import "react-toastify/dist/ReactToastify.css";
 import { Toast } from "@/lib/toast/toast";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  PasswordValidator,
-  TPasswordValidator,
-} from "@/lib/validator/password.validator";
-
+ 
 const SignUp = () => {
   const router = useRouter();
   const authService = new AuthService();
   const toast = new Toast();
   const email = useSearchParams().get("email") || "";
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<TPasswordValidator>({
-    resolver: zodResolver(PasswordValidator),
-  });
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   formState: { errors },
+  // } = useForm<TPasswordValidator>({
+  //   resolver: zodResolver(PasswordValidator),
+  // });
 
-  const onFormSubmit = ({ password }: TPasswordValidator, ) => {
-    console.log(password);
+  // const onFormSubmit = ({ password }: TPasswordValidator, ) => {
+  //   console.log(password);
 
-    return authService.setPassword(password)
-    .then((response) => {
-      console.log(response?.message,'9090')
-      toast.showToast('success', response?.message);
-    })
-    .catch(()=>{})
+  //   return authService.setPassword(password)
+  //   .then((response) => {
+  //     console.log(response?.message,'9090')
+  //     toast.showToast('success', response?.message);
+  //   })
+  //   .catch(()=>{})
 
-  };
+  // };
 
   return (
     <>
@@ -67,35 +63,7 @@ const SignUp = () => {
               readOnly
             />
           </div>
-          <form onSubmit={handleSubmit(onFormSubmit)}>
-            <div className="mb-6">
-              <Input
-                placeholder="enter password"
-                {...register("password")}
-                type="password"
-                className={cn(
-                  {
-                    "focus-visible:ring-red-500": errors.password,
-                  },
-                  "px-4 border border-white rounded-md w-full"
-                )}
-              />
-              {errors?.password && (
-                <p className="text-sm text-red-500">
-                  {errors.password.message}
-                </p>
-              )}
-            </div>
-
-            <div className="flex mb-4">
-              <span className=" text-sm max-w-prose  text-muted-foreground inline-block text-wrap">
-                You can update the password later also.
-              </span>
-            </div>
-
-            {/* Button */}
-            <Button className="w-full mb-3">Set Password</Button>
-          </form>
+          
         </div>
       </div>
     </>

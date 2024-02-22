@@ -11,12 +11,12 @@ export class AuthService extends APIService {
     }
 
 
-    async authenticateUser(email: any): Promise<any> {
-      console.log({email})
-        return this.post("/api/authenticate/", { email }, { headers: {} })
+    async signUpUser(email: string, password: string): Promise<any> {
+      console.log({email, password })
+        return this.post("/api/sign-up/", { email, password }, { headers: {} })
           .then((response) => {
-            // this.setAccessToken(response?.data?.access_token);
-            // this.setRefreshToken(response?.data?.refresh_token);
+            this.setAccessToken(response?.data?.access_token);
+            this.setRefreshToken(response?.data?.refresh_token);
             return response?.data;
           })
           .catch((error) => {
