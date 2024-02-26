@@ -9,20 +9,20 @@ import {
   } from "@/components/ui/dropdown-menu"
 type Props = {
     dropDownTitle:string,
-    dropDownItems:[],
-    onSelect: (selectedItem: string) => void;
+    
+    dropDownItems:[]
 }
 
-const CustomDropdown:React.FC<Props> = ({dropDownTitle,dropDownItems, onSelect}) => {
+const CustomDropdown:React.FC<Props> = ({dropDownTitle,dropDownItems}) => {
   return (
    <>
    
-<DropdownMenu  >
+<DropdownMenu>
   <DropdownMenuTrigger className="ml-4">{dropDownTitle}</DropdownMenuTrigger>
   <DropdownMenuContent>
     <DropdownMenuSeparator />
-    {dropDownItems.map((item, index) => ( 
-        <DropdownMenuItem key={index} onSelect={() => onSelect(item)}>{item}</DropdownMenuItem>
+    {dropDownItems.map((item) => ( 
+        <DropdownMenuItem>{item}</DropdownMenuItem>
     ) )}
     
   </DropdownMenuContent>

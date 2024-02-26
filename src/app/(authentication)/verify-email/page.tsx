@@ -8,10 +8,14 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import MaxWidthWrapper from "@/components/max-width-wrapper";
 import Navbar from "@/components/navbar";
+import { EmailService } from "@/services/email.service";
+import { UserService } from "@/services/user.service";
 
 const SignUp = () => {
   const [timer, setTimer] = useState(10);
-
+  const userService = new UserService();
+  const [userEmail, setUserEmail] = useState('');
+   
   const startTimer = () => {
     useEffect(() => {
       let interval: any;
@@ -32,7 +36,17 @@ const SignUp = () => {
     setTimer(10);
   };
 
-  
+  const fetchEmail = () => {
+    return userService.fetchUserEmail().then((response)=>{
+      console.log(response?.status_code)
+      response?.status_code == 200? setUserEmail(response?.email) : ''
+    })
+  }
+
+  useEffect(() => {
+    fetchEmail();
+  }, []);
+
   startTimer();
   return (
     <>
@@ -46,13 +60,13 @@ const SignUp = () => {
           </p>
 
           <p className="mb-1  max-w-prose text-muted-foreground">
-            <span className="text-blue-400">mohammed@gmail.com </span> below
+            <span className="text-blue-400">{ userEmail } </span> below
           </p>
 
           <div className="mb-6">
             <Input
               type="text"
-              value="mohammed@gmail.com"
+              value= {userEmail }
               className="px-4   border border-white rounded-md w-full"
               readOnly
             />

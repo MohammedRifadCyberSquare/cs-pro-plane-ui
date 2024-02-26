@@ -9,22 +9,22 @@ export const RouteList = [
     {
         icon: BarChart2,
         label: 'Analytics',
-        href: '/search'
+        href: '/analytics'
     },
-    {
-        icon: Columns4Icon,
-        label: 'Analytics',
-        href: '/search'
-    },
+    // {
+    //     icon: Columns4Icon,
+    //     label: 'Analytics',
+    //     href: '/search'
+    // },
     {
         icon: CheckCircle,
         label: 'All Issues',
-        href: '/search'
+        href: '/issues'
     },
     {
         icon: Bell,
         label: 'Notifications',
-        href: '/search'
+        href: '/notification'
     }
 ]
  

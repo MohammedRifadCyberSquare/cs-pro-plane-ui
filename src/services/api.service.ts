@@ -1,5 +1,5 @@
 import axios from "axios";
-import { setCookie } from 'cookies-next';
+import { getCookie, setCookie } from 'cookies-next';
 
 export abstract class APIService {
   protected baseURL: string;
@@ -7,18 +7,51 @@ export abstract class APIService {
   constructor(baseURL: string) {
     this.baseURL = baseURL;
   }
-  setRefreshToken(token: string) {  
+  setRefreshToken(token: string) {
     setCookie('refreshToken', token);
   }
-  setAccessToken(token: string) {  
-    setCookie('AccessToken', token);
+  setAccessToken(token: string) {
+    setCookie('accessToken', token);
   }
+  purgeRefreshToken() {
+    getCookie('yourCookieName');
+    // Cookies.remove("refreshToken", { path: "/" });
+  }
+
+
+
+  getAccessToken() {
+    console.log(getCookie('accessToken'))
+    return getCookie('accessToken')
+  }
+  getRefreshToken() {
+    return getCookie('refreshToken')
+  }
+
+
+  getHeaders() {
+    return {
+      Authorization: `Bearer ${this.getAccessToken()}`,
+    };
+  }
+
   get(url: string, config = {}): Promise<any> {
+    console.log(this.getAccessToken() ? this.getHeaders() : {}, 'kkkk')
     return axios({
       method: "get",
       url: this.baseURL + url,
-      //   headers: this.getAccessToken() ? this.getHeaders() : {},
+      headers: this.getAccessToken() ? this.getHeaders() : {},
       ...config,
+    }).then((response) => {
+      if (response?.data?.access_token) {
+        console.log('llkkkk')
+        this.setAccessToken(response?.data?.access_token);
+        this.setRefreshToken(response?.data?.refresh_token);
+      }
+      else{
+        console.log('no');
+        
+      }
     });
   }
 
@@ -29,7 +62,7 @@ export abstract class APIService {
       method: "post",
       url: this.baseURL + url,
       data,
-      //   headers: this.getAccessToken() ? this.getHeaders() : {},
+       headers: this.getAccessToken() ? this.getHeaders() : {},
       ...config,
     });
   }
@@ -49,7 +82,7 @@ export abstract class APIService {
       method: "patch",
       url: this.baseURL + url,
       data,
-      //   headers: this.getAccessToken() ? this.getHeaders() : {},
+      headers: this.getAccessToken() ? this.getHeaders() : {},
       ...config,
     });
   }

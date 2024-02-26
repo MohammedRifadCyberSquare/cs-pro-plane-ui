@@ -36,16 +36,16 @@ const SignUp = () => {
   const toast = new Toast();
   const onFormSubmit = ({ email, password }: TSignUpValidator) => {
     console.log(email, password, 'kkk')
-    return authService.signUpUser(email, password)
+    return authService.userSignUp(email, password)
     .then((response) => {
-      console.log(response?.statusCode)
-      if(response?.statusCode == 201){
+      console.log(response?.status_code)
+      if(response?.status_code == 201){
         
         router.push('/verify-email')
         toast.showToast('success', response?.message);
 
       }
-      if(response?.statusCode == 409){
+      if(response?.status_code == 409){
         toast.showToast('error', response?.message);
        
       }
