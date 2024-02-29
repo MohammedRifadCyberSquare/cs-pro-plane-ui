@@ -10,23 +10,28 @@ import Link from "next/link";
 import Navbar from "@/components/navbar";
 import { useState, useEffect, useCallback } from "react";
 import { AuthService } from "@/services/auth.service";
-
+import { observer } from "mobx-react-lite";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Toast } from "@/lib/toast/toast";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { observe } from "mobx";
+import { useMobxStore } from "@/store/store.provider";
+import { IUser, IUserSettings } from "@/types/user.dt";
 
 export interface EmailPasswordFormValues {
   email: string;
   password: string;
 }
 
-const Index = () => {
+const Index = observer(() => {
   const router = useRouter();
   const authService = new AuthService();
   const [showPasswordInput, setShowPasswordInput] = useState(false);
   const [isEmailValid, setIsEmailValid] = useState(false);
+ 
+
   const [email, setEmail] = useState<string>("");
 
   const {
@@ -35,16 +40,67 @@ const Index = () => {
     formState: { errors },
   } = useForm<EmailPasswordFormValues>();
   const toast = new Toast();
+
+  const {
+    user: { fetchCurrentUser, fetchCurrentUserSettings },
+   
+  } = useMobxStore();
+
+  const handleLoginRedirection = useCallback(
+    (user: IUser) => {
+      console.log('rediretion...')
+      if(!user.onboarding_step.email_verified){
+        console.log('email verification')
+        localStorage.setItem('showVerification', 'show')
+        // router.push("/sign-up");
+        return;
+      }
+      if (!user.is_onboarded) {
+        console.log('onboardng failed')
+
+        // router.push("/onboarding");
+        return;
+      }
+
+      fetchCurrentUserSettings()
+        .then((userSettings: IUserSettings) => {
+          console.log('user not onboarder');
+          
+          const workspaceSlug =
+            userSettings?.workspace?.last_workspace_slug || userSettings?.workspace?.fallback_workspace_slug;
+          if (workspaceSlug) router.push(`/workspaces/${workspaceSlug}`);
+          else if (userSettings.workspace.invites > 0) router.push("/invitations");
+          else router.push("/create-workspace");
+        })
+        .catch(() => {
+          // setLoading(false);
+          console.log('failed');
+
+        });
+    },[ router, ]
+  )
+  const mutateUserInfo = useCallback(() => {
+    
+    fetchCurrentUser().then((user) => {
+      console.log('user is ', user)
+      handleLoginRedirection(user);
+    });
+  }, [fetchCurrentUser, handleLoginRedirection]);
+
+ 
+
   const onFormSubmit = ({ email, password }: EmailPasswordFormValues) => {
     console.log(email, password);
     return authService.userSignIn(email, password).then((response) => {
       let statusCode = response?.status_code;
       let isEmailVerified = response?.is_email_verified
-      console.log(statusCode);
+       
+
+      console.log('res', statusCode)
+
       if (statusCode == 200){
-        console.log(isEmailVerified)
-        if(!isEmailVerified) router.push("/verify-email");
-        else router.push("/dashboard");
+         console.log('user found...........')
+        mutateUserInfo();
       }
       else{
         console.log('error')
@@ -103,6 +159,6 @@ const Index = () => {
       </div>
     </>
   );
-};
+});
 
 export default Index;

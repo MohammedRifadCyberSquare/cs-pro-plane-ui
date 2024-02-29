@@ -1,6 +1,6 @@
 import { API_BASE_URL } from "@/config/server.api.config";
 import { APIService } from "./api.service";
-import { IUser } from "@/types/user.dt";
+import { IUser, IUserSettings } from "@/types/user.dt";
 
 export class UserService extends APIService {
     constructor() {
@@ -11,7 +11,7 @@ export class UserService extends APIService {
     }
 
     async fetchUserEmail(): Promise<any> {
-      
+        console.log('fetching')
         return this.get("/api/user/email/")
           .then((response) => {
             console.log(response?.data.access_token)
@@ -32,4 +32,34 @@ export class UserService extends APIService {
             throw error?.response?.data;
           });
       }
+
+      async currentUser(): Promise<IUser> {
+        return this.get("/api/users/me/")
+          .then((response) => response?.data)
+          .catch((error) => {
+            throw error?.response;
+          });
+      }
+
+      async updateUserOnBoard({ userRole }: any, user: IUser | undefined): Promise<any> {
+        return this.patch("/api/users/me/onboard/", {
+          is_onboarded: true,
+        })
+          .then((response) => {
+             console.log('onboardrd')
+            return response?.data;
+          })
+          .catch((error) => {
+            throw error?.response?.data;
+          });
+      }
+
+      async currentUserSettings(): Promise<IUserSettings> {
+        return this.get("/api/users/me/settings/")
+          .then((response) => response?.data)
+          .catch((error) => {
+            throw error?.response;
+          });
+      }
+    
 }

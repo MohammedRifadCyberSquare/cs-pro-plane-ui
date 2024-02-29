@@ -16,6 +16,7 @@ export interface IUser {
   mobile_number: string | null;
   role: string | null;
   onboarding_step: {
+    email_verified?: boolean;
     workspace_join?: boolean;
     profile_complete?: boolean;
     workspace_create?: boolean;
@@ -47,3 +48,11 @@ export interface IUserSettings {
     invites: number;
   };
 }
+
+export type TOnboardingSteps = {
+  email_verfied: boolean;
+  profile_complete: boolean;
+  workspace_create: boolean;
+  workspace_invite: boolean;
+  workspace_join: boolean;
+};

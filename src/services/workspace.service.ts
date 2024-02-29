@@ -18,4 +18,22 @@ export class WorkspaceService extends APIService {
             throw error?.response?.data;
           });
       }
+
+
+      async userWorkspaces(): Promise<IWorkspace[]> {
+        return this.get("/api/users/me/workspaces/")
+          .then((response) => response?.data)
+          .catch((error) => {
+            throw error?.response?.data;
+          });
+      }
+
+
+      async getWorkspace(workspaceSlug: string): Promise<IWorkspace> {
+        return this.get(`/api/workspaces/${workspaceSlug}/`)
+          .then((response) => response?.data)
+          .catch((error) => {
+            throw error?.response;
+          });
+      }
 }
