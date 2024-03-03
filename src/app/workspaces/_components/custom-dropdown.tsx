@@ -21,8 +21,8 @@ const CustomDropdown:React.FC<Props> = ({dropDownTitle,dropDownItems}) => {
   <DropdownMenuTrigger className="ml-4">{dropDownTitle}</DropdownMenuTrigger>
   <DropdownMenuContent>
     <DropdownMenuSeparator />
-    {dropDownItems.map((item) => ( 
-        <DropdownMenuItem>{item}</DropdownMenuItem>
+    {dropDownItems.map((item,index) => ( 
+        <DropdownMenuItem key={index}>{item}</DropdownMenuItem>
     ) )}
     
   </DropdownMenuContent>

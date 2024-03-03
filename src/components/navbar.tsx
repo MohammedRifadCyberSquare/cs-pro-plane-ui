@@ -15,7 +15,7 @@ const Navbar: React.FC<Props> = ({ isOnBoarding = false }) => {
           <img
             src="/images/cs-pro.jpg"
             alt=""
-            style={{ height: "130px", width: "113px" }}
+            style={{ height: "50px", width: "113px" }}
             className="mr-2"
           />
         </Link>

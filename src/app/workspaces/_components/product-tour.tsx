@@ -20,7 +20,7 @@ const ProductTour:React.FC<Props>  = (props) => {
         />
         <h2 className='mt-3 flex justify-start my-3 text-sm max-w-prose text-foreground'>Welcome to plane, { userName }</h2>
 
-        <p className='mr-10 text-sm max-w-prose my-4 text-foreground'>We're glad that you decided to try out Plane. You can now manage your projects with ease. Get started by creating a project.</p>
+        <p className='mr-10 text-sm max-w-prose my-4 text-foreground'>We&aposre glad that you decided to try out Plane. You can now manage your projects with ease. Get started by creating a project.</p>
     
         <div className="flex">
 

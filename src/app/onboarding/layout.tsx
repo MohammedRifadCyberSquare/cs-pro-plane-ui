@@ -12,7 +12,7 @@ export default function AuthenticationLayout({
 
       <div className="flex min-h-[80vh] ">
         <div className="flex justify-center w-1/4">
-          <SideBar />
+          {/* <SideBar /> */}
         </div>
         <div className="bg-red flex-1 ml-[2%] ">{children}</div>
       </div>

@@ -39,6 +39,7 @@ const SignUp = () => {
     user: { fetchCurrentUser },
    
   } = useMobxStore();
+  
 
   const handleLoginRedirection = useCallback(
 
@@ -82,6 +83,7 @@ const SignUp = () => {
   } = useForm<TSignUpValidator>({
     resolver: zodResolver(SignUpValidator),
   });
+
   const toast = new Toast();
   const onFormSubmit = ({ email, password }: TSignUpValidator) => {
     console.log(email, password, "kkk");
