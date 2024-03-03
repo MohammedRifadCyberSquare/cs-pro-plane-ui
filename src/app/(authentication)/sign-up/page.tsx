@@ -20,10 +20,10 @@ import {
   TSignUpValidator,
   SignUpValidator,
 } from "@/lib/validator/signup.validator";
-import VerifyEmail, { IEmailVerificationForm, IVerificationCode } from "../verify-email/page";
 import { EmailService } from "@/services/email.service";
 import { useMobxStore } from "@/store/store.provider";
 import { IUser } from "@/types/user.dt";
+import { IVerificationCode } from "@/app/onboarding/_components/verify-email/verify-email";
 
 const SignUp = () => {
   const router = useRouter();
@@ -43,12 +43,7 @@ const SignUp = () => {
   const handleLoginRedirection = useCallback(
 
     (user: IUser) => {
-      console.log('reeeeeeeeeeeeeeeeeeeeeeee')
-      if(!user.onboarding_step.email_verified){
-        localStorage.setItem('showVerification', 'show')
-        router.push("/sign-up");
-        return;
-      }
+      
       if (!user.is_onboarded) {
         router.push("/onboarding");
         return;
@@ -58,22 +53,10 @@ const SignUp = () => {
   const mutateUserInfo = useCallback(() => {
     
     fetchCurrentUser().then((user) => {
-      console.log('user is ', user)
       handleLoginRedirection(user);
     });
   }, [fetchCurrentUser, handleLoginRedirection]);
 
-  useEffect(() => {
-    const verifyUser = localStorage.getItem("showVerification") || null;
-    if (verifyUser) {
-      console.log('kkk')
-      showVerifyEmail(true);
-      localStorage.removeItem("showVerification");
-    }
-    else{
-      console.log('jjjjjj')
-    }
-  }, []);
   const emailService = new EmailService()
   const {
     register,
@@ -88,8 +71,9 @@ const SignUp = () => {
     return authService.userSignUp(email, password).then((response) => {
       console.log(response?.status_code);
       if (response?.status_code == 201) {
-        showVerifyEmail(true);
         toast.showToast("success", response?.message);
+        mutateUserInfo()
+        
       }
       if (response?.status_code == 409) {
         toast.showToast("error", response?.message);
@@ -97,32 +81,7 @@ const SignUp = () => {
     });
   };
 
-  const handleRequestNewCode = () => {
-      
-    return emailService.requestCode().then((response) => {
-      console.log(response?.status_code)
-      if (response?.status_code == 200) {
-        toast.showToast("success", response?.message);
-      }
-    })
-  }
-
-  const submitCode = (formData: IVerificationCode) =>  {
-     
-      
-    return emailService.verifyEmail(formData).then((response) => {
-      if (response?.status_code == 200) {
-         mutateUserInfo()
-        router.push("/onboarding");
-        toast.showToast("success", response?.message);
-      }
-
-      if (response?.status_code == 405) {
-        toast.showToast("error", response?.message);
-      }
-      console.log(response?.status_code)
-    })
-  }
+  
 
 
 
@@ -131,7 +90,7 @@ const SignUp = () => {
     <>
       <Navbar />
       <ToastContainer />
-      {!verifyEmail ? (
+       
         <div className="flex items-center justify-center h-[70vh] mt-4">
           <div className="text-center">
             <h1 className="text-2xl font-bold mb-1">Sign Up On Plane</h1>
@@ -201,9 +160,7 @@ const SignUp = () => {
             </form>
           </div>
         </div>
-      ) : (
-        <VerifyEmail handleRequestNewCode = {handleRequestNewCode} onSubmit={submitCode} />
-      )}
+      )  
     </>
   );
 };

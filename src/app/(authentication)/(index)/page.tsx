@@ -49,28 +49,29 @@ const Index = observer(() => {
   const handleLoginRedirection = useCallback(
     (user: IUser) => {
       console.log('rediretion...')
-      if(!user.onboarding_step.email_verified){
-        console.log('email verification')
-        localStorage.setItem('showVerification', 'show')
-        // router.push("/sign-up");
-        return;
-      }
+      // if(!user.onboarding_step.email_verified){
+      //   console.log('email verification')
+      //   localStorage.setItem('showVerification', 'show')
+      //   // router.push("/sign-up");
+      //   return;
+      // }
       if (!user.is_onboarded) {
         console.log('onboardng failed')
 
-        // router.push("/onboarding");
+         router.push("/onboarding");
         return;
       }
 
       fetchCurrentUserSettings()
         .then((userSettings: IUserSettings) => {
-          console.log('user not onboarder');
+          console.log('user not onboarder', userSettings);
           
           const workspaceSlug =
             userSettings?.workspace?.last_workspace_slug || userSettings?.workspace?.fallback_workspace_slug;
-          if (workspaceSlug) router.push(`/workspaces/${workspaceSlug}`);
+          console.log(workspaceSlug,'////////////////')
+            if (workspaceSlug) router.push(`/workspaces/${workspaceSlug}`);
           else if (userSettings.workspace.invites > 0) router.push("/invitations");
-          else router.push("/create-workspace");
+          // else router.push("/create-workspace");
         })
         .catch(() => {
           // setLoading(false);

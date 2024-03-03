@@ -27,9 +27,13 @@ import {
   ProfileValidator,
   TProfileValidator,
 } from "@/lib/validator/profile.validator";
-import { IUser } from "@/types/user.dt";
+import { IUser, TOnboardingSteps } from "@/types/user.dt";
 import { useMobxStore } from "@/store/store.provider";
 
+type Props = {
+  stepChange: (steps: Partial<TOnboardingSteps>, formData: IProfile ) => Promise<void>;
+
+}
 export interface IProfile {
   first_name: string;
   last_name: string;
@@ -37,8 +41,8 @@ export interface IProfile {
 }
 
 const dropDownItems: any = ["Engineering/Development", "Freelance", "Student"];
-const OnboardingProfile = observer((props: any) => {
-  const { user } = props;
+const OnboardingProfile: React.FC<Props> = observer((props) => {
+  const {  stepChange } = props;
  
 
   const router = useRouter();
@@ -47,16 +51,11 @@ const OnboardingProfile = observer((props: any) => {
 
   const toast = new Toast();
   const onFormSubmit = async(formData: IProfile) => {
-    const payload: Partial<IUser> = {
-      ...formData,
-      onboarding_step: {
-        ...user.onboarding_step,
-        profile_complete: true,
-      },
-    };
    
-    console.log(payload);
-    await userStore.updateCurrentUser(payload);
+    
+    await stepChange({ profile_complete: true }, formData)
+    toast.showToast('success', 'Profile Updated')
+
   };
 
   const {

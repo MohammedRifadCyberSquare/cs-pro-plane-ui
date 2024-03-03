@@ -111,6 +111,7 @@ constructor(_rootStore: RootStore) {
 
 
   createWorkspace = async (data: Partial<IWorkspace>) => {
+    console.log('userwwwwwwwwwwwwwwwwwwwww')
     try {
       // runInAction(() => {
       //   this.loader = true;
