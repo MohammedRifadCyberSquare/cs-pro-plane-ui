@@ -1,8 +1,11 @@
+
+"use client"
 import Navbar from "@/components/navbar";
 import SideBar from "@/components/sidebar/sidebar";
 import WorkSpaceProjects from "./_components/projects";
 import { RouteList } from "@/constants/sidebar";
 import DashboardComponent from "./_components/dashboard";
+import { useState } from "react";
 
 export default function DashboardLayout({
   children,
@@ -10,6 +13,14 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const route = RouteList;
+  
+  const [isSidebarVisible, setSidebarVisible] = useState(true);
+  
+  const toggleSidebar = () => {
+    setSidebarVisible(!isSidebarVisible);
+  };
+
+
   return (
    <>
       <div className="h-screen w-full overflow-hidden">
