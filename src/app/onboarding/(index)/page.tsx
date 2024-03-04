@@ -33,10 +33,10 @@ const OnBoarding = observer(() => {
     workspace: workspaceStore,
   } = useMobxStore();
 
-  const {} = useUserAuth("onboarding");
+  const { } = useUserAuth("onboarding");
   const user = currentUser ?? undefined;
-  console.log(user,'99999999999999999')
-  
+  console.log(user, '99999999999999999')
+
   const workspaces = workspaceStore.workspaces;
   // const userWorkspaces = workspaceStore.workspacesCreateByCurrentUser;
 
@@ -62,8 +62,8 @@ const OnBoarding = observer(() => {
     steps: Partial<TOnboardingSteps>,
     formData?: IProfile
   ) => {
-     
-    
+
+
     if (!user) return;
 
     const updatedOnboardingSteps: Partial<TOnboardingSteps> = {
@@ -76,11 +76,11 @@ const OnBoarding = observer(() => {
       ...(formData && { ...formData }),
     };
 
-    
-   
+
+
 
     await updateCurrentUser(payload);
- 
+
   };
 
   // const stepChange = async (steps: Partial<TOnboardingSteps>) => {
@@ -138,25 +138,31 @@ const OnBoarding = observer(() => {
   return (
     <>
       {step == 1 && (
-        <div>
-          <VerifyEmail stepChange={stepChange} />
-        </div>
+        <>
+          {/* <VerifyEmail stepChange={stepChange} /> */}
+          <OnboardingProfile stepChange={stepChange} />
+
+
+        </>
+
+
+
       )}
       {step == 2 && (
-        <div>
+        <>
           <OnboardingProfile stepChange={stepChange} />
-        </div>
+        </>
       )}
 
       {step == 3 && (
-        <div>
+        <>
           <WorkSpace
             finishOnboarding={finishOnboarding}
             stepChange={stepChange}
             user={user}
             workspaces={workspaces}
           />
-        </div>
+        </>
       )}
 
       <ToastContainer />

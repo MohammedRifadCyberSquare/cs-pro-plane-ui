@@ -128,12 +128,15 @@ const WorkSpace: React.FC<Props> = (props) => {
   };
 
   return (
-    <div className="flex h-[70vh] mt-4 ml-20">
-      <div className="text-center">
-        <h1 className="text-2xl font-semibold mb-2">
+
+
+
+    <div className=" flex justify-center flex-col text-center s] h-[90%] w-[50%] shadow-lg text-slate-900 ">
+
+        <h2 className="flex justify-start text-sm md:text-2xl lg:text-3xl sm:text-lg font-semibold">
           What will your workspace be?
-        </h1>
-        <p className="mt-3 flex justify-start my-3 text-sm max-w-prose text-muted-foreground">
+        </h2>
+        <p className="mt-3 flex justify-start ms-2 my-3 text-xs sm:text-sm md:text-sm lg:text-sm max-w-prose text-muted-foreground">
           Name it.
         </p>
         <form onSubmit={handleSubmit(handleCreateWorkspace)}>
@@ -153,7 +156,8 @@ const WorkSpace: React.FC<Props> = (props) => {
                     setValue("slug", updatedSlug);
                   }}
                   placeholder="enter workspace name..."
-                  className="px-4 text-gray-500 w-full"
+                  className="px-4 text-gray-500 w-[80%] ms-2 text-xs sm:text-sm md:text-sm lg:text-sm placeholder:text-xs placeholder:sm:text-sm placeholder:md:text-sm placeholder:lg:text-sm"
+
                   required
                 />
               )}
@@ -162,7 +166,7 @@ const WorkSpace: React.FC<Props> = (props) => {
               <p className="text-red-500">{errors.name.message}</p>
             )}
           </div>
-          <span className="mt-3 flex justify-start my-3 text-sm max-w-prose text-muted-foreground">
+          <span className="mt-3 ms-2 flex justify-start my-3 text-xs sm:text-sm md:text-sm lg:text-sm max-w-prose text-muted-foreground">
             You can edit the slug.
           </span>
           <div className="mb-3">
@@ -173,7 +177,8 @@ const WorkSpace: React.FC<Props> = (props) => {
                 <Input
                   type="text"
                   value={workspaceSlug}
-                  className="px-4 text-gray-500 w-full"
+                  className="px-4 text-gray-500 w-[80%] ms-2 text-xs sm:text-sm md:text-sm lg:text-sm placeholder:text-xs placeholder:sm:text-sm placeholder:md:text-sm placeholder:lg:text-sm"
+
                   required
                   onChange={(e) => {
                     setValue("slug", "hello");
@@ -187,7 +192,7 @@ const WorkSpace: React.FC<Props> = (props) => {
             )}
           </div>
 
-          <p className="mt-3 flex justify-start my-3 text-sm max-w-prose text-muted-foreground">
+          <p className="mt-3 ms-2 flex justify-start my-3 text-xs sm:text-sm md:text-sm lg:text-sm max-w-prose text-muted-foreground">
             What size is your organisation?
           </p>
           <div className="mt-3 flex justify-start my-3 text-sm max-w-prose text-muted-foreground">
@@ -208,13 +213,16 @@ const WorkSpace: React.FC<Props> = (props) => {
               <p className="text-red-500">{errors.organization_size.message}</p>
             )}
           </div>
-
-          <Button type="submit" className="w-full mb-3">
+          <div className="flex justify-start">
+          <Button type="submit" className= " ms-2 w-[80%] mb-3 mt-4">
             Make it live
           </Button>
+
+          </div>
+        
         </form>
       </div>
-    </div>
+    
   );
 };
  

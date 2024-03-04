@@ -6,6 +6,7 @@ import WorkSpaceProjects from "./_components/projects";
 import { RouteList } from "@/constants/sidebar";
 import DashboardComponent from "./_components/dashboard";
 import { useState } from "react";
+import CsProLogo from "@/components/cs-pro-logo";
 
 export default function DashboardLayout({
   children,
@@ -160,7 +161,7 @@ export default function DashboardLayout({
               <div className="flex w-full items-center justify-between gap-1 self-baseline border-t  px-4 py-2 ">
                 <div className=" bg-transparent border-2 hover:bg-slate-200 focus:text-gray-200  flex items-center gap-1.5 whitespace-nowrap transition-all justify-center w-1/2 cursor-pointer rounded-2xl px-2.5 py-1.5 text-center text-sm font-medium outline-none">
                   {/* <Navbar/>  */}
-                  CS Pro Logo
+                 <CsProLogo/>
                 </div>
               </div>
               {/* pacing_logo ends here  */}
