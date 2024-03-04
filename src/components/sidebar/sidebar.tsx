@@ -1,10 +1,14 @@
-import React from "react";
+import React, { FC } from "react";
 import SidebarRoutes from "./sidebar-routes";
 
-const SideBar = () => {
+type Props = {
+  dashboardLink?: string
+}
+const SideBar:FC<Props> = (props) => {
+  const {dashboardLink} = props
   return (
     <div>
- <SidebarRoutes />
+ <SidebarRoutes dashboardLink= {dashboardLink}/>
     </div>
  
   );

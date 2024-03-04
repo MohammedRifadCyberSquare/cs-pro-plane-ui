@@ -1,4 +1,4 @@
-import { Layout, CheckCircle, BarChart2, Columns4Icon, Bell,LayoutGrid } from "lucide-react";
+import { Layout, CheckCircle, BarChart2, Columns4Icon, Bell,LayoutGrid, BaggageClaimIcon } from "lucide-react";
 
 export const RouteList = [
     {
@@ -10,6 +10,11 @@ export const RouteList = [
         icon: BarChart2,
         label: 'Analytics',
         href: '/workspaces/analytics'
+    },
+    {
+        icon: BaggageClaimIcon,
+        label: 'Projects',
+        href: '/workspaces/projects'
     },
     
     {

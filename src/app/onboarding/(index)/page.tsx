@@ -15,7 +15,7 @@ import VerifyEmail, {
   IVerificationCode,
 } from "../_components/verify-email/verify-email";
 import { ToastContainer } from "react-toastify";
-import WorkSpace from "../workspace/[slug]/page";
+import WorkSpace from "../workspace/page";
 
 const OnBoarding = observer(() => {
   const emailService = new EmailService();
@@ -35,7 +35,8 @@ const OnBoarding = observer(() => {
 
   const {} = useUserAuth("onboarding");
   const user = currentUser ?? undefined;
-  console.log(user,'99999999999999999')
+
+  console.log(user,'current user')
   
   const workspaces = workspaceStore.workspaces;
   // const userWorkspaces = workspaceStore.workspacesCreateByCurrentUser;

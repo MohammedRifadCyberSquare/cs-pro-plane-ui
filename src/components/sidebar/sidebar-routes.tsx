@@ -1,14 +1,26 @@
 "use client"
-import React from 'react'
+import React, { FC } from 'react'
 import { Compass, Layout } from 'lucide-react'
 import SidebarItem from './sidebar-item'
 import { usePathname } from 'next/navigation'
 import { RouteList } from '@/constants/sidebar'
 
-const SidebarRoutes = () => {
+
+
+type Props = {
+  dashboardLink?: string
+}
+const SidebarRoutes:FC<Props> = (props) => {
    
+  const {dashboardLink} = props
 
     const routes = RouteList
+
+    const dashboardItem = RouteList.find((route) => route.label === 'Dashboard');
+    if (dashboardItem) {
+      dashboardItem.href = `/workspaces/${dashboardLink}`;
+    }
+  
     
   return (
     <div className='flex flex-col w-full'>

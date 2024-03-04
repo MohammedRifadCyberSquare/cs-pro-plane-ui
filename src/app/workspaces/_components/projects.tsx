@@ -13,8 +13,8 @@ import { Dice4 } from 'lucide-react';
 import { Avatar } from '@nextui-org/react';
 import { ReactSVG } from 'react';
 
-const YourProjects: React.FC = () => {
-  const content="Your project"
+const ProjectsList: React.FC = () => {
+  const content="test project"
   const Accordionitems: { icon: JSX.Element, title: string }[] = [
     
     { icon: <Layers3 size={20}/>, title: "Issues" },
@@ -27,8 +27,10 @@ const YourProjects: React.FC = () => {
 
   return (
     <>
+    <h3 className='text-muted-foreground '>Your Projects</h3>
+
       <Accordion className="text-sm ">
-      <AccordionItem title="Your project">
+      <AccordionItem title="test project">
        <Accordion className=" text-xs ">
        {
        Accordionitems.map((item, index )=> (
@@ -43,7 +45,7 @@ const YourProjects: React.FC = () => {
        </AccordionItem>
     </Accordion>
 
-<Accordion className="text-sm ">
+{/* <Accordion className="text-sm ">
 <AccordionItem title="Your project">
  <Accordion className=" text-xs ">
  {
@@ -57,10 +59,10 @@ const YourProjects: React.FC = () => {
 
 </Accordion>
  </AccordionItem>
-</Accordion>
+</Accordion> */}
 </>
   );
 }
 
    
-export default YourProjects;
+export default ProjectsList;

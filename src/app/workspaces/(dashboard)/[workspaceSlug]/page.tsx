@@ -1,19 +1,23 @@
 "use client";
 import React, { FC } from "react";
-import ProductTour from "../_components/product-tour";
+import ProductTour from "../../_components/product-tour";
 import { useState } from "react";
-import DashboardOverView from "../_components/dashboard-over-view";
-import DashboardHeader from "../_components/header";
+import DashboardOverView from "../../_components/dashboard-over-view";
+import DashboardHeader from "../../_components/workspace-header";
 import { GridIcon, LucideIcon, Projector } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 type Props = {
   icon: LucideIcon
 }
-const DashBoard: FC<Props> = (props) => {
+const DashBoard: FC<Props>= (props ) => {
   const [productTour, showProductTour] = useState(true);
 
+  const router = useRouter();
   const { icon } = props
-
+  // let slug = decodeURIComponent(params);
+  // console.log('000', props.params)
+  // const { slug } = router.query;
   return (
     <>
       
@@ -25,7 +29,7 @@ const DashBoard: FC<Props> = (props) => {
         )} */}
 
         <div className="h-full">
-        <DashboardHeader icon = {GridIcon} />
+        <DashboardHeader icon = {GridIcon} title="Dashboard"/>
         <DashboardOverView />
         </div>
      

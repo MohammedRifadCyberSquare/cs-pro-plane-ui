@@ -114,6 +114,7 @@ export const useUserAuth = (routeAuth: "sign-in" | "onboarding" | "admin" | null
     };
 
     if (user) {
+     
       console.log('user found')
       handleUserRouteAuthentication();
     }

@@ -11,7 +11,7 @@ export default function AuthenticationLayout({
       <Navbar />
 
       <div className="flex min-h-[80vh] ">
-        <div className="flex justify-center w-1/4">
+        <div className="flex justify-start  ms-5 mt-9 w-1/4">
           <SideBar />
         </div>
         <div className="bg-red flex-1 ml-[2%] ">{children}</div>

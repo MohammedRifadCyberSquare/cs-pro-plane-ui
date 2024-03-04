@@ -28,18 +28,14 @@ export interface EmailPasswordFormValues {
 const Index = observer(() => {
   const router = useRouter();
   const authService = new AuthService();
-  const [showPasswordInput, setShowPasswordInput] = useState(false);
-  const [isEmailValid, setIsEmailValid] = useState(false);
- 
-
-  const [email, setEmail] = useState<string>("");
-
+  const toast = new Toast();
+  
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<EmailPasswordFormValues>();
-  const toast = new Toast();
+ 
 
   const {
     user: { fetchCurrentUser, fetchCurrentUserSettings },
@@ -48,30 +44,21 @@ const Index = observer(() => {
 
   const handleLoginRedirection = useCallback(
     (user: IUser) => {
-      console.log('rediretion...')
-      // if(!user.onboarding_step.email_verified){
-      //   console.log('email verification')
-      //   localStorage.setItem('showVerification', 'show')
-      //   // router.push("/sign-up");
-      //   return;
-      // }
+     
+      
       if (!user.is_onboarded) {
-        console.log('onboardng failed')
-
-         router.push("/onboarding");
+        router.push("/onboarding");
         return;
       }
 
       fetchCurrentUserSettings()
-        .then((userSettings: IUserSettings) => {
-          console.log('user not onboarder', userSettings);
-          
+        .then((userSettings: IUserSettings) => {        
           const workspaceSlug =
             userSettings?.workspace?.last_workspace_slug || userSettings?.workspace?.fallback_workspace_slug;
-          console.log(workspaceSlug,'////////////////')
-            if (workspaceSlug) router.push(`/workspaces/${workspaceSlug}`);
+          
+          if (workspaceSlug) router.push(`/workspaces/${workspaceSlug}`);
           else if (userSettings.workspace.invites > 0) router.push("/invitations");
-          // else router.push("/create-workspace");
+       
         })
         .catch(() => {
           // setLoading(false);
@@ -94,23 +81,11 @@ const Index = observer(() => {
     console.log(email, password);
     return authService.userSignIn(email, password).then((response) => {
       let statusCode = response?.status_code;
-      let isEmailVerified = response?.is_email_verified
-       
-
-      console.log('res', statusCode)
-
-      if (statusCode == 200){
-         console.log('user found...........')
-        mutateUserInfo();
-      }
-      else{
-        console.log('error')
-        toast.showToast('error', response?.message);
+      if (statusCode == 200)mutateUserInfo();
+      else toast.showToast('error', response?.message);
 
       }
-
-    });
-  };
+  )};
 
   return (
     <>

@@ -26,15 +26,11 @@ import { IUser } from "@/types/user.dt";
 import { IVerificationCode } from "@/app/onboarding/_components/verify-email/verify-email";
 
 const SignUp = () => {
+
   const router = useRouter();
   const authService = new AuthService();
-  const [showPasswordInput, setShowPasswordInput] = useState(false);
-  const [isEmailValid, setIsEmailValid] = useState(false);
-  const [verifyEmail, showVerifyEmail] = useState(false);
+  const toast = new Toast();
 
-
-
-  
   const {
     user: { fetchCurrentUser },
    
@@ -48,8 +44,9 @@ const SignUp = () => {
         router.push("/onboarding");
         return;
       }
-    },[ router, ]
-  )
+    },[router, ]
+ )
+  
   const mutateUserInfo = useCallback(() => {
     
     fetchCurrentUser().then((user) => {
@@ -57,7 +54,6 @@ const SignUp = () => {
     });
   }, [fetchCurrentUser, handleLoginRedirection]);
 
-  const emailService = new EmailService()
   const {
     register,
     handleSubmit,
@@ -65,11 +61,10 @@ const SignUp = () => {
   } = useForm<TSignUpValidator>({
     resolver: zodResolver(SignUpValidator),
   });
-  const toast = new Toast();
+ 
   const onFormSubmit = ({ email, password }: TSignUpValidator) => {
-    console.log(email, password, "kkk");
     return authService.userSignUp(email, password).then((response) => {
-      console.log(response?.status_code);
+       
       if (response?.status_code == 201) {
         toast.showToast("success", response?.message);
         mutateUserInfo()
