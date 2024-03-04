@@ -2,6 +2,7 @@
 import Link from "next/link";
 import React from "react";
 import Image from "next/image";
+import CsProLogo from "./cs-pro-logo";
 
 type Props = {
   isOnBoarding?: boolean;
@@ -12,12 +13,7 @@ const Navbar: React.FC<Props> = ({ isOnBoarding = false }) => {
     <div className="container sticky z-50 flex top-0 inset-x-0 rounded">
       <header>
         <Link href="">
-          <img
-            src="/images/cs-pro.jpg"
-            alt=""
-            style={{ height: "130px", width: "113px" }}
-            className="mr-2"
-          />
+          <CsProLogo />
         </Link>
       </header>
       {isOnBoarding && (

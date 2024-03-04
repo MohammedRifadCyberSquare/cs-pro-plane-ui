@@ -116,44 +116,47 @@ const Index = observer(() => {
     <>
       <Navbar />
       <ToastContainer />
-      <div className="flex items-center justify-center h-[70vh] mt-4">
+      <div className="flex items-center justify-center h-[70vh] mt-15 bg-slate-50 ">
         <div className="text-center">
-          <h1 className="text-2xl font-bold mb-1">
+          <h1 className=" font-semibold text-3xl mb-4">
             Welcome Back, let's get you on board
           </h1>
 
-          <p className="mb-4  max-w-prose text-muted-foreground">
-            Get back your issues, projects and workspaces.
+          <p className="mb-4 text-sm max-w-prose text-foreground">
+            Get back to your issues, projects and workspaces.
           </p>
           <form onSubmit={handleSubmit(onFormSubmit)}>
-            <div className="mb-6">
+            <div className="mb-6 ml-8 mr-8 ">
               <Input
                 required
                 type="text"
                 {...register("email")}
                 placeholder="enter your email"
-                className="px-4 py-2 border border-white rounded-md w-full"
+                className="px-4 py-2 border border-white rounded-md w-full bg-white"
               />
             </div>
 
-            <div className="mb-6">
+            <div className="mb-6 ml-8 mr-8 bg-white">
               <Input
                 required
                 type="password"
                 {...register("password")}
                 placeholder="enter password"
-                className="px-4 py-2 border border-white rounded-md w-full"
+                className="px-4 py-2 border  rounded-md w-full bg-white  "
               />
             </div>
 
+
             {/* Button */}
-            <Button className="w-full mb-3" type="submit">
+            <div className="flex items-end justify-center">
+            <Button className="w-full mb-6 ml-8 mr-8 border-radius:0.25rem" type="submit">
               Login
             </Button>
+            </div>
           </form>
-
-          <div className="mt-4">
-            <span> Don't have an account?</span>
+       
+          <div className="mt-4 bg-slate-50 text-sm ">
+            <span className="bg-slate-50"> Don't have an account?</span>
             <Link href="/sign-up"> Signup</Link>
           </div>
         </div>

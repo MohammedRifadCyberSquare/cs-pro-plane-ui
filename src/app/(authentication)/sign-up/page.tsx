@@ -91,15 +91,15 @@ const SignUp = () => {
       <Navbar />
       <ToastContainer />
        
-        <div className="flex items-center justify-center h-[70vh] mt-4">
+      <div className="flex items-center justify-center h-[70vh] mt-15 bg-slate-50">
           <div className="text-center">
-            <h1 className="text-2xl font-bold mb-1">Sign Up On Plane</h1>
+            <h1 className="font-semibold text-3xl mb-4">Sign Up On Plane</h1>
 
-            <p className="mb-4  max-w-prose text-muted-foreground">
+            <p className="mb-4 text-sm max-w-prose text-foreground">
               Create an account and track your issues, projects and workspaces.
             </p>
             <form onSubmit={handleSubmit(onFormSubmit)}>
-              <div className="mb-6">
+              <div className="mb-6 ml-8 mr-8">
                 <Input
                   {...register("email")}
                   type="text"
@@ -116,7 +116,7 @@ const SignUp = () => {
                 )}
               </div>
 
-              <div className="mb-6">
+              <div className="mb-6 ml-8 mr-8">
                 <Input
                   {...register("password")}
                   type="password"
@@ -133,7 +133,7 @@ const SignUp = () => {
                 )}
               </div>
 
-              <div className="mb-6">
+              <div className="mb-6 ml-8 mr-8">
                 <Input
                   {...register("confirmPassword")}
                   type="password"
@@ -150,17 +150,20 @@ const SignUp = () => {
                 )}
               </div>
               {/* Button */}
-              <Button className="w-full mb-3" type="submit">
+              <div className="flex items-end justify-center">
+            <Button className="w-full mb-6 ml-8 mr-8 border-radius:0.25rem"  type="submit">
                 Sign up
               </Button>
-              <div className="mt-4">
-                <span>Already have an account?</span>
+              </div>
+          <div className="mt-4 bg-slate-50 text-sm ">
+            
+                <span className="bg-slate-50">Already have an account?</span>
                 <Link href="/"> Sign in</Link>
               </div>
             </form>
           </div>
-        </div>
-      )  
+        </div>   
+        
     </>
   );
 };

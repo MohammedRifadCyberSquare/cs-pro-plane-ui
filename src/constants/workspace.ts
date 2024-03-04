@@ -14,3 +14,4 @@ export const RESTRICTED_URLS = [
   "spaces",
   "workspace-member-invitation",
 ]
+

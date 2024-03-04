@@ -9,13 +9,9 @@ export const RouteList = [
     {
         icon: BarChart2,
         label: 'Analytics',
-        href: '/analytics'
+        href: '/workspaces/analytics'
     },
-    // {
-    //     icon: Columns4Icon,
-    //     label: 'Analytics',
-    //     href: '/search'
-    // },
+    
     {
         icon: CheckCircle,
         label: 'All Issues',
