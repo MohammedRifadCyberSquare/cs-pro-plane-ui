@@ -103,8 +103,6 @@ const OnBoarding = observer(() => {
 
   useEffect(() => {
     const handleStepChange = async () => {
-      console.log("*****************************************now handlespep");
-
       const onboardingStep = user?.onboarding_step;
       console.log(onboardingStep, "888888888");
       if (!onboardingStep?.email_verified) {

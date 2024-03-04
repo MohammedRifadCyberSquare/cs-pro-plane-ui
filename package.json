@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "env-cmd -e development next dev",
-    "build": "next build",
+    "build": "env-cmd -e development next build  --port 5001",
     "start": "env-cmd -e development next start",
     "lint": "next lint"
   },

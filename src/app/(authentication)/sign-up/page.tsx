@@ -146,7 +146,7 @@ const SignUp = () => {
               </div>
               {/* Button */}
               <div className="flex items-end justify-center">
-            <Button className="w-full mb-6 ml-8 mr-8 border-radius:0.25rem"  type="submit">
+              <Button className="w-full mb-6 ml-8 mr-8 border-radius:0.25rem"  type="submit">
                 Sign up
               </Button>
               </div>
