@@ -1,6 +1,7 @@
 import { API_BASE_URL } from "@/config/server.api.config";
 import { APIService } from "./api.service";
-import { IVerificationCode } from "@/app/(authentication)/verify-email/page";
+import { IVerificationCode } from "@/app/onboarding/_components/verify-email/verify-email";
+;
 
 
 export class EmailService extends APIService {

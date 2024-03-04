@@ -50,7 +50,7 @@ export interface IUserSettings {
 }
 
 export type TOnboardingSteps = {
-  email_verfied: boolean;
+  email_verified: boolean;
   profile_complete: boolean;
   workspace_create: boolean;
   workspace_invite: boolean;

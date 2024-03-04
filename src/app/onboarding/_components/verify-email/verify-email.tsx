@@ -14,11 +14,14 @@ import { EmailService } from "@/services/email.service";
 import { UserService } from "@/services/user.service";
 import { useMobxStore } from "@/store/store.provider";
 import { useRouter } from "next/navigation";
-import { IUser } from "@/types/user.dt";
+import { IUser, TOnboardingSteps } from "@/types/user.dt";
+import { Toast } from "@/lib/toast/toast";
+import { ToastContainer } from "react-toastify";
 
 export interface IEmailVerificationForm {
-  handleRequestNewCode: () => Promise<void>;
-  onSubmit: (formData:IVerificationCode ) => Promise<void>;
+   
+  stepChange: (steps: Partial<TOnboardingSteps>) => Promise<void>;
+ 
 }
 
 export interface IVerificationCode{
@@ -26,53 +29,41 @@ export interface IVerificationCode{
 }
 
 const VerifyEmail: React.FC<IEmailVerificationForm> = observer((props) => {
-  const { handleRequestNewCode, onSubmit } = props;
-
-  const [timer, setTimer] = useState(0);
+  const { stepChange } = props;
   const userService = new UserService();
   const [userEmail, setUserEmail] = useState("");
+  const emailService = new EmailService()
+  const toast = new Toast();
 
-  const {
-    user: { fetchCurrentUser },
-  } = useMobxStore();
-  const router = useRouter();
-
-
-  const startTimer = () => {
-    useEffect(() => {
-      let interval: any;
-
-      // Start the timer
-      if (timer > 0) {
-        interval = setInterval(() => {
-          setTimer((prevTimer) => prevTimer - 1);
-        }, 1000);
+  const handleRequestNewCode = () => {
+      
+    return emailService.requestCode().then((response) => {
+      console.log(response?.status_code)
+      if (response?.status_code == 200) {
+        toast.showToast("success", response?.message);
       }
-      return () => clearInterval(interval);
-    }, [timer]);
-  };
-  
+    })
+  }
 
-  const handleLoginRedirection = useCallback((user: IUser) => {
-    if (!user.is_onboarded) {
-      localStorage.setItem("showVerification", "true");
-      router.push("/sign-up");
-    }
-  },[router]);
-   
+ const submitCode = async (formData: IVerificationCode) => {
+    return emailService.verifyEmail(formData).then(async (response) => {
+      if (response?.status_code == 200) {
+        toast.showToast("success", response?.message);
+         
+       await stepChange({ email_verified: true });
+        
+      }
 
-  const mutateUserInfo = useCallback(() => {
-  
-    fetchCurrentUser().then((user) => {
-     
-      handleLoginRedirection(user);
+      if (response?.status_code == 405) {
+        toast.showToast("error", response?.message);
+      }
+      
     });
-  }, [fetchCurrentUser, handleLoginRedirection]);
-
+  };
 
   const fetchEmail = () => {
     return userService.fetchUserEmail().then((response) => {
-      console.log(response?.status_code);
+       
       response?.status_code == 200 ? setUserEmail(response?.email) : "";
     });
   };
@@ -95,6 +86,7 @@ const VerifyEmail: React.FC<IEmailVerificationForm> = observer((props) => {
   });
   return (
     <>
+    
       <div className="flex items-center justify-center h-[70vh]  mt-4">
         <div className="text-center">
           <h1 className="text-4xl font-bold mb-1">Moving to the runway</h1>
@@ -105,7 +97,7 @@ const VerifyEmail: React.FC<IEmailVerificationForm> = observer((props) => {
           <p className="mb-1  max-w-prose text-muted-foreground">
             <span className="text-blue-400">{userEmail} </span> below
           </p>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(submitCode)}>
             <div className="mb-6">
               
 
@@ -138,28 +130,23 @@ const VerifyEmail: React.FC<IEmailVerificationForm> = observer((props) => {
             
 
             <div className="flex justify-end my-3">
-              {timer > 0 ? (
-                <span className="text-sm max-w-prose text-muted-foreground">
-                  {Math.floor(timer / 60)}:
-                  {(timer % 60).toString().padStart(2, "0")}
-                </span>
-              ) : (
                 <span
                   className=" text-sm max-w-prose text-muted-foreground cursor-pointer"
                   onClick={handleRequestNewCode}
                 >
                   Request code
-                </span>
-              )}
+                </span>   
             </div>
 
-            {/* Button */}
             <Button type="submit" className="w-full mb-3">
               Continue
             </Button>
           </form>
         </div>
       </div>
+
+
+      
     </>
   );
 });

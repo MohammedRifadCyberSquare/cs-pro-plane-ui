@@ -20,10 +20,10 @@ import {
   TSignUpValidator,
   SignUpValidator,
 } from "@/lib/validator/signup.validator";
-import VerifyEmail, { IEmailVerificationForm, IVerificationCode } from "../verify-email/page";
 import { EmailService } from "@/services/email.service";
 import { useMobxStore } from "@/store/store.provider";
 import { IUser } from "@/types/user.dt";
+import { IVerificationCode } from "@/app/onboarding/_components/verify-email/verify-email";
 
 const SignUp = () => {
   const router = useRouter();
@@ -44,12 +44,7 @@ const SignUp = () => {
   const handleLoginRedirection = useCallback(
 
     (user: IUser) => {
-      console.log('reeeeeeeeeeeeeeeeeeeeeeee')
-      if(!user.onboarding_step.email_verified){
-        localStorage.setItem('showVerification', 'show')
-        router.push("/sign-up");
-        return;
-      }
+      
       if (!user.is_onboarded) {
         router.push("/onboarding");
         return;
@@ -59,22 +54,10 @@ const SignUp = () => {
   const mutateUserInfo = useCallback(() => {
     
     fetchCurrentUser().then((user) => {
-      console.log('user is ', user)
       handleLoginRedirection(user);
     });
   }, [fetchCurrentUser, handleLoginRedirection]);
 
-  useEffect(() => {
-    const verifyUser = localStorage.getItem("showVerification") || null;
-    if (verifyUser) {
-      console.log('kkk')
-      showVerifyEmail(true);
-      localStorage.removeItem("showVerification");
-    }
-    else{
-      console.log('jjjjjj')
-    }
-  }, []);
   const emailService = new EmailService()
   const {
     register,
@@ -90,8 +73,9 @@ const SignUp = () => {
     return authService.userSignUp(email, password).then((response) => {
       console.log(response?.status_code);
       if (response?.status_code == 201) {
-        showVerifyEmail(true);
         toast.showToast("success", response?.message);
+        mutateUserInfo()
+        
       }
       if (response?.status_code == 409) {
         toast.showToast("error", response?.message);
@@ -99,32 +83,7 @@ const SignUp = () => {
     });
   };
 
-  const handleRequestNewCode = () => {
-      
-    return emailService.requestCode().then((response) => {
-      console.log(response?.status_code)
-      if (response?.status_code == 200) {
-        toast.showToast("success", response?.message);
-      }
-    })
-  }
-
-  const submitCode = (formData: IVerificationCode) =>  {
-     
-      
-    return emailService.verifyEmail(formData).then((response) => {
-      if (response?.status_code == 200) {
-         mutateUserInfo()
-        router.push("/onboarding");
-        toast.showToast("success", response?.message);
-      }
-
-      if (response?.status_code == 405) {
-        toast.showToast("error", response?.message);
-      }
-      console.log(response?.status_code)
-    })
-  }
+  
 
 
 
@@ -133,16 +92,16 @@ const SignUp = () => {
     <>
       <Navbar />
       <ToastContainer />
-      {!verifyEmail ? (
-        <div className="flex items-center justify-center h-[70vh] mt-4">
+       
+      <div className="flex items-center justify-center h-[70vh] mt-15 bg-slate-50">
           <div className="text-center">
-            <h1 className="text-2xl font-bold mb-1">Sign Up On Plane</h1>
+            <h1 className="font-semibold text-3xl mb-4">Sign Up On Plane</h1>
 
-            <p className="mb-4  max-w-prose text-muted-foreground">
+            <p className="mb-4 text-sm max-w-prose text-foreground">
               Create an account and track your issues, projects and workspaces.
             </p>
             <form onSubmit={handleSubmit(onFormSubmit)}>
-              <div className="mb-6">
+              <div className="mb-6 ml-8 mr-8">
                 <Input
                   {...register("email")}
                   type="text"
@@ -159,7 +118,7 @@ const SignUp = () => {
                 )}
               </div>
 
-              <div className="mb-6">
+              <div className="mb-6 ml-8 mr-8">
                 <Input
                   {...register("password")}
                   type="password"
@@ -176,7 +135,7 @@ const SignUp = () => {
                 )}
               </div>
 
-              <div className="mb-6">
+              <div className="mb-6 ml-8 mr-8">
                 <Input
                   {...register("confirmPassword")}
                   type="password"
@@ -193,19 +152,20 @@ const SignUp = () => {
                 )}
               </div>
               {/* Button */}
-              <Button className="w-full mb-3" type="submit">
+              <div className="flex items-end justify-center">
+            <Button className="w-full mb-6 ml-8 mr-8 border-radius:0.25rem"  type="submit">
                 Sign up
               </Button>
-              <div className="mt-4">
-                <span>Already have an account?</span>
+              </div>
+          <div className="mt-4 bg-slate-50 text-sm ">
+            
+                <span className="bg-slate-50">Already have an account?</span>
                 <Link href="/"> Sign in</Link>
               </div>
             </form>
           </div>
-        </div>
-      ) : (
-        <VerifyEmail handleRequestNewCode = {handleRequestNewCode} onSubmit={submitCode} />
-      )}
+        </div>   
+        
     </>
   );
 };
