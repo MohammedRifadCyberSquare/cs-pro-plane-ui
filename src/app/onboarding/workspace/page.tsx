@@ -11,8 +11,8 @@ import { IUser, TOnboardingSteps } from "@/types/user.dt";
 import { RESTRICTED_URLS } from "@/constants/workspace";
 import { Toast } from "@/lib/toast/toast";
 import { useMobxStore } from "@/store/store.provider";
+import { OrgSizeDropDownItems } from "@/constants/dropdown-items";
  
-
 type Props = {
   finishOnboarding: () => Promise<void>;
   stepChange: (steps: Partial<TOnboardingSteps>) => Promise<void>;
@@ -21,18 +21,12 @@ type Props = {
 };
 
 const WorkSpace: React.FC<Props> = (props) => {
-  const { finishOnboarding, stepChange, user, workspaces } = props;
-  const dropDownItems: any = [
-    "just myself",
-    "1-20",
-    "21-50",
-    "51-200",
-    "201-500",
-    "500+",
-  ];
+  const { finishOnboarding, } = props;
+   console.log('netx ', process.env.NEXT_PUBLIC_BASE_URL)
   const [workspaceSlug, setWorkspaceSlug] = useState(
-    "http://localhost:3000/workspace/"
+    `${process.env.NEXT_PUBLIC_BASE_URL}/workspace/`
   );
+  const [selectedRole, setSelectedRole] = useState<string | null>(null);
   const toast = new Toast();
   const workspaceService = new WorkspaceService();
 
@@ -40,7 +34,6 @@ const WorkSpace: React.FC<Props> = (props) => {
     handleSubmit,
     control,
     setValue,
-    getValues,
     formState: { errors, isSubmitting, isValid },
   } = useForm<IWorkspace>({
     defaultValues: {
@@ -64,8 +57,9 @@ const WorkSpace: React.FC<Props> = (props) => {
           await workspaceStore
             .createWorkspace(formData)
             .then(async (response: any) => {
+              await finishOnboarding()
               toast.showToast("success", "Workspace Created");
-              await stepChange({ workspace_create: true });
+             
             });
         } else {
           toast.showToast("error", "Workspace Exists");
@@ -92,7 +86,8 @@ const WorkSpace: React.FC<Props> = (props) => {
                 onChange={(e) => {
                   const updatedSlug = e.target.value.replace(/\s+/g, "-");
                   setWorkspaceSlug(
-                    `http://localhost:3000/workspace/${updatedSlug}`
+                 
+                    `${process.env.NEXT_PUBLIC_BASE_URL}/workspace/${updatedSlug}`
                   );
                   setValue("name", e.target.value);
                   setValue("slug", updatedSlug);
@@ -138,10 +133,10 @@ const WorkSpace: React.FC<Props> = (props) => {
             render={({ field }) => (
               <CustomDropdown
                 onSelect={(selectedItem) =>
-                  setValue("organization_size", selectedItem)
+                  {setValue("organization_size", selectedItem),setSelectedRole(selectedItem)}   
                 }
-                dropDownTitle="Select organisation size"
-                dropDownItems={dropDownItems}
+                dropDownTitle= {selectedRole?selectedRole:"Select organisation size"}
+                dropDownItems={OrgSizeDropDownItems}
               />
             )}
           />

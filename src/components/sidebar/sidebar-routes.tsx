@@ -8,11 +8,12 @@ import { RouteList } from '@/constants/sidebar'
 
 
 type Props = {
-  dashboardLink?: string
+  dashboardLink?: string,
+  isDisabled?: boolean
 }
 const SidebarRoutes:FC<Props> = (props) => {
    
-  const {dashboardLink} = props
+  const {dashboardLink, isDisabled} = props
 
     const routes = RouteList
 

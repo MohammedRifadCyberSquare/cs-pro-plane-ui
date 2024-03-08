@@ -1,35 +1,15 @@
 "use client";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import Image from "next/image";
 import "react-toastify/dist/ReactToastify.css";
 import { Toast } from "@/lib/toast/toast";
-import { cn } from "@/lib/utils";
-import { useRouter } from "next/navigation";
-import MaxWidthWrapper from "@/components/max-width-wrapper";
-import Link from "next/link";
-import Navbar from "@/components/navbar";
-import { useState, useEffect, useCallback } from "react";
-import { AuthService } from "@/services/auth.service";
-import { ToastContainer } from "react-toastify";
+import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { User, WavesIcon } from "lucide-react";
 import { observer } from "mobx-react-lite";
-
-import {
-  TSignUpValidator,
-  SignUpValidator,
-} from "@/lib/validator/signup.validator";
 import CustomDropdown from "../_components/custom-dropdown";
-import {
-  ProfileValidator,
-  TProfileValidator,
-} from "@/lib/validator/profile.validator";
-import { IUser, TOnboardingSteps } from "@/types/user.dt";
-import { useMobxStore } from "@/store/store.provider";
-import { SelectItem } from "@nextui-org/react";
+import { TOnboardingSteps } from "@/types/user.dt";
+import { ProfileDropDownItems } from "@/constants/dropdown-items";
 
 type Props = {
   stepChange: (steps: Partial<TOnboardingSteps>, formData: IProfile) => Promise<void>;
@@ -41,19 +21,12 @@ export interface IProfile {
   role: string;
 }
 
-const dropDownItems: any = ["Engineering/Development", "Freelance", "Student"];
 const OnboardingProfile: React.FC<Props> = observer((props) => {
   const { stepChange } = props;
-
-
-  const router = useRouter();
-  const { user: userStore } = useMobxStore();
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
 
   const toast = new Toast();
   const onFormSubmit = async (formData: IProfile) => {
-
-
     await stepChange({ profile_complete: true }, formData)
     toast.showToast('success', 'Profile Updated')
 
@@ -63,7 +36,6 @@ const OnboardingProfile: React.FC<Props> = observer((props) => {
     handleSubmit,
     control,
     setValue,
-    getValues,
     formState: { errors, isSubmitting, isValid },
   } = useForm<IProfile>({
     defaultValues: {
@@ -110,12 +82,7 @@ const OnboardingProfile: React.FC<Props> = observer((props) => {
               {errors.first_name && (
                 <p className="text-red-500">{errors.first_name.message}</p>
               )}
-              {/* <Input
-              type="text"
-              placeholder="enter your first name"
-              className="px-4 text-gray-500 w-[100%]"
-              {...register("firstName")}
-            /> */}
+             
             </div>
 
             <p className="mt-3 flex justify-start my-3 text-xs sm:text-sm md:text-sm lg:text-sm max-w-prose text-muted-foreground">
@@ -140,16 +107,6 @@ const OnboardingProfile: React.FC<Props> = observer((props) => {
               {errors.last_name && (
                 <p className="text-red-500">{errors.last_name.message}</p>
               )}
-
-              {/* 
-
-            <Input
-              type="text"
-              placeholder="enter your last name"
-              className="px-4 text-gray-500 w-[100%]"
-              {...register("lastName")}
-               
-            /> */}
             </div>
             <p className="mt-3 flex justify-start my-2 text-xs sm:text-sm md:text-sm lg:text-sm max-w-prose text-muted-foreground">
               What&apos;s your role:
@@ -161,17 +118,14 @@ const OnboardingProfile: React.FC<Props> = observer((props) => {
                 render={({ field }) => (
                   <CustomDropdown
                     onSelect={(selectedItem) => {setValue("role", selectedItem) , setSelectedRole(selectedItem)}}
-                    dropDownTitle={selectedRole?selectedRole:"Select your role:"}
-                    dropDownItems={dropDownItems}
+                    dropDownTitle= {selectedRole?selectedRole:"Select role"}
+                    dropDownItems={ProfileDropDownItems }
                   />
                 )}
               />
               {errors.role && (
                 <p className="text-red-500">{errors.role.message}</p>
               )}
-
-
-
             </div>
             <div>
 
@@ -182,8 +136,6 @@ const OnboardingProfile: React.FC<Props> = observer((props) => {
 
           </form>
         </div>
-
-
       </div>
 
     </>

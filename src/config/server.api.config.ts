@@ -1,1 +1,3 @@
-export const API_BASE_URL = process.env.PLANE_APP_API_END_POINT || "http://localhost:8000";
+export const API_BASE_URL = process.env.NEXT_PUBLIC_BASE_API_URL || ""
+
+console.log("Test Variable:", process.env.TEST_VAR);

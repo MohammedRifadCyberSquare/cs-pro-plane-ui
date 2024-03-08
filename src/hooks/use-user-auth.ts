@@ -5,16 +5,14 @@ import { useRouter } from "next/navigation";
 import useSWR from "swr";
 import { UserService } from "@/services/user.service";
 import { IUser, IUserSettings } from "@/types/user.dt";
-import { WorkspaceService } from "@/services/workspace.service";
 import { useMobxStore } from "@/store/store.provider";
 
 
 const userService = new UserService();
-const workspaceService = new WorkspaceService();
 
 export const useUserAuth = (routeAuth: "sign-in" | "onboarding" | "admin" | null = "admin") => {
 
-  console.log('1111111111111112222222222222222222333333333333333333')
+
   const router = useRouter();
   const {
     data: user,
@@ -42,31 +40,6 @@ export const useUserAuth = (routeAuth: "sign-in" | "onboarding" | "admin" | null
             userSettings?.workspace?.last_workspace_slug || userSettings?.workspace?.fallback_workspace_slug;
           if (workspaceSlug) router.push(`/workspaces/${workspaceSlug}`);
         }
-          // workspaceService.userWorkspaces().then(async (userWorkspaces) => {
-          // const userWorkspaces = response.data
-          // const lastActiveWorkspace = userWorkspaces.find((workspace:any) => workspace.id === user?.last_workspace_id);
-          //     console.log('user workp', lastActiveWorkspace,)
-          //     console.log(userWorkspaces)
-          //     alert('userWorkspaces')
-          // if (lastActiveWorkspace) {
-          //   alert('last active============')
-          //     router.push(`/workspaces/${lastActiveWorkspace.slug}`);
-          //   return;
-          // } else if (userWorkspaces.length > 0) {
-          //    alert('workspace>0')
-          //   router.push(`/workspaces/${userWorkspaces[0].slug}`);
-          //   return;
-          // }
-
-
-          // else {
-          //   localStorage.setItem('createWorkspace', 'create')
-          //   router.push(`/onboarding`);
-          //   return;
-          // }
-
-          // }
-
         )
 
     }
@@ -106,35 +79,19 @@ export const useUserAuth = (routeAuth: "sign-in" | "onboarding" | "admin" | null
           }
         }
       } else {
-        // user is not active and we can redirect to no access page
-        // router.push("/no-access");
-        // remove token
         return;
       }
     };
 
-    if (user) {
-     
-      console.log('user found')
+    if (user && !isLoading) {
       handleUserRouteAuthentication();
     }
-    // else{
-    //   router.push('/')
-    // }
-
-
 
   }, [user, isLoading,])
-
-
-
-
 
   return {
 
     user: error ? undefined : user,
     mutateUser: mutate,
-    // assignedIssuesLength: user?.assigned_issues ?? 0,
-    // workspaceInvitesLength: user?.workspace_invites ?? 0,
   };
 }

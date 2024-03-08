@@ -40,6 +40,7 @@ const VerifyEmail: React.FC<IEmailVerificationForm> = observer((props) => {
     return emailService.requestCode().then((response) => {
       console.log(response?.status_code)
       if (response?.status_code == 200) {
+        console.log('verification code: ', response?.code)
         toast.showToast("success", response?.message);
       }
     })
@@ -87,63 +88,63 @@ const VerifyEmail: React.FC<IEmailVerificationForm> = observer((props) => {
   return (
     <>
     
-      <div className="flex items-center justify-center h-[70vh]  mt-4">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold mb-1">Moving to the runway</h1>
-          <p className="mt-3  max-w-prose text-muted-foreground">
-            Paste the code you got at
-          </p>
+    <div className=" flex justify-center flex-col text-center s] h-[80%] w-[50%] shadow-lg text-slate-900 ">
+        <h3 className="md:text-3xl sm:text-2xl xs: text-xl font-semibold mb-1">Moving to the runway</h3>
+        <p className="  mt-3 ms-5 max-w-prose text-muted-foreground sm:text-base xs: text-xs">
+          Paste the code you got at
+        </p>
 
-          <p className="mb-1  max-w-prose text-muted-foreground">
-            <span className="text-blue-400">{userEmail} </span> below
-          </p>
-          <form onSubmit={handleSubmit(submitCode)}>
-            <div className="mb-6">
-              
+        <p className="mb-4 ms-5  max-w-prose text-muted-foreground sm:text-base xs: text-xs">
+          <span className="text-blue-400">abc@test.com </span> below
+        </p>
+        <form onSubmit={handleSubmit(submitCode)}>
+          <div className="mb-6 flex justify-center">
 
-              <Controller
-                control={control}
-                name="code"
-                rules={{
-                  required: "Code is required",
-                }}
-                render={({ field }) => (
-                  <Input
-                    type="text"
-                    onChange={(e) => {
-                      console.log('eeee')
-                      setValue("code", e.target.value);
-                     
-                    }}
-                    placeholder="get-set-fly"
-                    className="px-4 text-gray-500 w-full"
-                    required
-                  />
-                )}
-              />
-                {errors?.code && (
-                  <p className="text-sm text-red-500 mt-3">
-                    {errors.code?.message}
-                  </p>
-                )}
-            </div>
-            
 
-            <div className="flex justify-end my-3">
-                <span
-                  className=" text-sm max-w-prose text-muted-foreground cursor-pointer"
-                  onClick={handleRequestNewCode}
-                >
-                  Request code
-                </span>   
-            </div>
+            <Controller
+              control={control}
+              name="code"
+              rules={{
+                required: "Code is required",
+              }}
+              render={({ field }) => (
+                <Input
+                  type="text"
+                  onChange={(e) => {
+                    console.log('eeee')
+                    setValue("code", e.target.value);
 
-            <Button type="submit" className="w-full mb-3">
-              Continue
-            </Button>
-          </form>
-        </div>
+                  }}
+                  placeholder="get-set-fly"
+                  className="px-4 text-gray-500 w-[60%] "
+                  required
+                />
+              )}
+            />
+            {errors?.code && (
+              <p className="text-sm text-red-500 mt-3">
+                {errors.code?.message}
+              </p>
+            )}
+          </div>
+
+
+          <div className="flex w-[80%] justify-end my-3">
+            <span
+              className=" text-sm max-w-prose text-muted-foreground cursor-pointer  hover:text-slate-800"
+              onClick={handleRequestNewCode}
+            >
+              Request code
+            </span>
+          </div>
+
+          <Button type="submit" className="w-[60%] mb-3">
+            Continue
+          </Button>
+        </form>
       </div>
+
+
 
 
       

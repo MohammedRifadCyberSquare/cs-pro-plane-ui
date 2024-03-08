@@ -1,5 +1,7 @@
+ 
 import Navbar from "@/components/navbar";
 import SideBar from "@/components/sidebar/sidebar";
+import UserAuthWrapper from "@/layouts/auth-layout/auth-wrapper";
 
 export default function AuthenticationLayout({
   children,
@@ -7,6 +9,7 @@ export default function AuthenticationLayout({
   children: React.ReactNode;
 }) {
   return (
+    
     <main>
       <Navbar />
 
@@ -17,5 +20,6 @@ export default function AuthenticationLayout({
         <div className="bg-red flex-1 ml-[2%] ">{children}</div>
       </div>
     </main>
+     
   );
 }

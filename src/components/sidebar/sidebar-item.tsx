@@ -4,6 +4,7 @@ import { LucideIcon } from 'lucide-react'
 import React from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
+import { useMobxStore } from '@/store/store.provider'
  
 
 interface ISidebarItem {
@@ -27,10 +28,12 @@ const SidebarItem = ({
     const onClick = () => {
         router.push(href)
     }
+ 
 
     return (
        <button
        onClick={onClick}
+       disabled 
        type='button'
        className={cn(
         'flex items-center gap-x-2 text-slate-500 text-sm font-[500] pl-6 transition-all hover:text-slate-600 hover:bg-slate-300/20',

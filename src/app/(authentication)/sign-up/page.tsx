@@ -1,14 +1,11 @@
 "use client";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
-import MaxWidthWrapper from "@/components/max-width-wrapper";
 import Link from "next/link";
 import Navbar from "@/components/navbar";
-import { useState, useEffect, useCallback } from "react";
+import { useCallback } from "react";
 import { AuthService } from "@/services/auth.service";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -20,10 +17,8 @@ import {
   TSignUpValidator,
   SignUpValidator,
 } from "@/lib/validator/signup.validator";
-import { EmailService } from "@/services/email.service";
 import { useMobxStore } from "@/store/store.provider";
 import { IUser } from "@/types/user.dt";
-import { IVerificationCode } from "@/app/onboarding/_components/verify-email/verify-email";
 
 const SignUp = () => {
 
@@ -75,11 +70,6 @@ const SignUp = () => {
       }
     });
   };
-
-  
-
-
-
 
   return (
     <>

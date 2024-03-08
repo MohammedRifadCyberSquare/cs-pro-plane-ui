@@ -1,47 +1,31 @@
 "use client";
 import React from "react";
-import { useEffect, useState, ReactElement } from "react";
+import { useEffect, useState } from "react";
 import OnboardingProfile, { IProfile } from "../profile/page";
 import { useUserAuth } from "@/hooks/use-user-auth";
 import "react-toastify/dist/ReactToastify.css";
 import { observer } from "mobx-react-lite";
-import { EmailService } from "@/services/email.service";
 import { Toast } from "@/lib/toast/toast";
 import { useMobxStore } from "@/store/store.provider";
-import useSWR from "swr";
 import { IUser, TOnboardingSteps } from "@/types/user.dt";
-import { UserService } from "@/services/user.service";
-import VerifyEmail, {
-  IVerificationCode,
-} from "../_components/verify-email/verify-email";
+import VerifyEmail  from "../_components/verify-email";
 import { ToastContainer } from "react-toastify";
 import WorkSpace from "../workspace/page";
+import UserAuthWrapper from "@/layouts/auth-layout/auth-wrapper";
 
 const OnBoarding = observer(() => {
-  const emailService = new EmailService();
-  const userService = new UserService();
+
   const [step, setStep] = useState<number | null>(null);
-
-  // const handleRequestNewCode = () => {
-  //   return emailService.requestCode().then((response) => {
-  //     console.log(response?.status_code);
-  //   });
-  // };
-
-  const {
-    user: { currentUser, updateCurrentUser, updateUserOnBoard },
-    workspace: workspaceStore,
-  } = useMobxStore();
+  
+    const {
+      user: { currentUser, updateCurrentUser, updateUserOnBoard },
+      workspace: workspaceStore,
+    } = useMobxStore();
 
   const {} = useUserAuth("onboarding");
   const user = currentUser ?? undefined;
-
-  console.log(user,'current user')
   
   const workspaces = workspaceStore.workspaces;
-  // const userWorkspaces = workspaceStore.workspacesCreateByCurrentUser;
-
-  console.log(user, "ooooooooooooo");
 
   const finishOnboarding = async () => {
     if (!user) return;
@@ -49,16 +33,6 @@ const OnBoarding = observer(() => {
     await updateUserOnBoard();
   };
 
-  // const updateLastWorkspace = async () => {
-  //   if (!workspaces) return;
-
-  //   await updateCurrentUser({
-  //     last_workspace_id: workspaces[0]?.id,
-  //   });
-  // };
-
-
-  // handle step change
   const stepChange = async (
     steps: Partial<TOnboardingSteps>,
     formData?: IProfile
@@ -77,37 +51,17 @@ const OnBoarding = observer(() => {
       ...(formData && { ...formData }),
     };
 
-    
-   
-
     await updateCurrentUser(payload);
  
   };
 
-  // const stepChange = async (steps: Partial<TOnboardingSteps>) => {
-
-  //   if (!user) return;
-
-  //   const payload: Partial<IUser> = {
-  //     onboarding_step: {
-  //       ...user.onboarding_step,
-  //       ...steps,
-  //     },
-  //   };
-
-  //   console.log('after step chng', user)
-
-  //   await updateCurrentUser(payload);
-  //    console.log('user sssssssssssssssssssssssssssssssssssss',user)
-  // };
+  
 
   useEffect(() => {
     const handleStepChange = async () => {
       const onboardingStep = user?.onboarding_step;
-      console.log(onboardingStep, "888888888");
-      if (!onboardingStep?.email_verified) {
-        console.log("email verification");
 
+      if (!onboardingStep?.email_verified) {
         setStep(1);
         return;
       }
@@ -136,6 +90,7 @@ const OnBoarding = observer(() => {
 
   return (
     <>
+    <UserAuthWrapper>
       {step == 1 && (
         <div>
           <VerifyEmail stepChange={stepChange} />
@@ -143,7 +98,7 @@ const OnBoarding = observer(() => {
       )}
       {step == 2 && (
         <div>
-          <OnboardingProfile stepChange={stepChange} />
+          <OnboardingProfile  stepChange = {stepChange}/>
         </div>
       )}
 
@@ -159,8 +114,19 @@ const OnBoarding = observer(() => {
       )}
 
       <ToastContainer />
+      </UserAuthWrapper>
     </>
   );
 });
 
+// OnBoarding.getLayout = function getLayout(page: ReactElement) {
+//   return (
+//     <UserAuthWrapper>
+//       <DefaultLayout>{page}</DefaultLayout>
+//     </UserAuthWrapper>
+//   );
+// };
+
 export default OnBoarding;
+
+

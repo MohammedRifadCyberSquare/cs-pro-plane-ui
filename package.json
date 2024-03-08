@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "env-cmd -e development next dev",
-    "build": "env-cmd -e development next build  --port 5001",
-    "start": "env-cmd -e development next start",
+    "run:dev":"env-cmd -e local next dev",
+    "dev": "env-cmd -e local next dev",
+    "build": "env-cmd -e development next build",
+    "start": "env-cmd -e local next start",
     "lint": "next lint"
   },
   "dependencies": {

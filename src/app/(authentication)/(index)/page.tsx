@@ -1,22 +1,16 @@
 "use client";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import Image from "next/image";
-import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
-import MaxWidthWrapper from "@/components/max-width-wrapper";
 import Link from "next/link";
 import Navbar from "@/components/navbar";
-import { useState, useEffect, useCallback } from "react";
+import { useCallback } from "react";
 import { AuthService } from "@/services/auth.service";
 import { observer } from "mobx-react-lite";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Toast } from "@/lib/toast/toast";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { observe } from "mobx";
+import { useForm } from "react-hook-form";
 import { useMobxStore } from "@/store/store.provider";
 import { IUser, IUserSettings } from "@/types/user.dt";
 
@@ -39,13 +33,10 @@ const Index = observer(() => {
 
   const {
     user: { fetchCurrentUser, fetchCurrentUserSettings },
-   
   } = useMobxStore();
 
   const handleLoginRedirection = useCallback(
     (user: IUser) => {
-     
-      
       if (!user.is_onboarded) {
         router.push("/onboarding");
         return;
@@ -62,15 +53,11 @@ const Index = observer(() => {
         })
         .catch(() => {
           // setLoading(false);
-          console.log('failed');
-
         });
-    },[ router, ]
+    },[router ]
   )
   const mutateUserInfo = useCallback(() => {
-    
     fetchCurrentUser().then((user) => {
-      console.log('user is ', user)
       handleLoginRedirection(user);
     });
   }, [fetchCurrentUser, handleLoginRedirection]);
@@ -94,7 +81,7 @@ const Index = observer(() => {
       <div className="flex items-center justify-center h-[70vh] mt-15 bg-slate-50 ">
         <div className="text-center">
           <h1 className=" font-semibold text-3xl mb-4">
-            Welcome Back, let's get you on board
+            Welcome Back, let&apos;s get you on board
           </h1>
 
           <p className="mb-4 text-sm max-w-prose text-foreground">
@@ -120,9 +107,6 @@ const Index = observer(() => {
                 className="px-4 py-2 border  rounded-md w-full bg-white  "
               />
             </div>
-
-
-            {/* Button */}
             <div className="flex items-end justify-center">
             <Button className="w-full mb-6 ml-8 mr-8 border-radius:0.25rem" type="submit">
               Login
@@ -131,7 +115,7 @@ const Index = observer(() => {
           </form>
        
           <div className="mt-4 bg-slate-50 text-sm ">
-            <span className="bg-slate-50"> Don't have an account?</span>
+            <span className="bg-slate-50"> Dont have an account?</span>
             <Link href="/sign-up"> Signup</Link>
           </div>
         </div>

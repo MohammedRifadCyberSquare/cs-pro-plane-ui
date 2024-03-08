@@ -9,7 +9,7 @@ import {
   } from "@/components/ui/dropdown-menu"
 type Props = {
     dropDownTitle:string,
-    dropDownItems:[],
+    dropDownItems:string[],
     onSelect: (selectedItem: string) => void;
 }
 
